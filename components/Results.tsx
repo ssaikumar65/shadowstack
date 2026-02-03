@@ -1,5 +1,5 @@
 import { Signal } from "@/lib/types";
-import ArchitectureCard from "./TechCard";
+import ArchitectureCard from "./ArchitectureCard";
 
 export default function Results({
   data,
