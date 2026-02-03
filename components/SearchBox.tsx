@@ -3,13 +3,14 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export default function SearchBox({ onScan }: { onScan: (d: string) => void }) {
+export default function SearchBox() {
   const [domain, setDomain] = useState("");
-
+  const router = useRouter();
   const handleScan = () => {
     const trimmedDomain = domain.trim() || "vercel.com";
-    onScan(trimmedDomain);
+    router.push(`/${trimmedDomain}`);
     setDomain("");
   };
 
