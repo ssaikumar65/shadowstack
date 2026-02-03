@@ -1,4 +1,6 @@
-import SearchBox from "@/components/SearchBox";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { scan } from "@/lib/actions";
 
 export default function Home() {
   return (
@@ -8,7 +10,17 @@ export default function Home() {
         See what companies actually run.
       </p>
 
-      <SearchBox />
+      <form action={scan} className="flex gap-3">
+        <Input
+          name="domain"
+          required
+          placeholder="vercel.com"
+          className="text-lg"
+        />
+        <Button size="lg" type="submit">
+          Scan
+        </Button>
+      </form>
     </main>
   );
 }
