@@ -1,24 +1,14 @@
 "use client";
 
 import SearchBox from "@/components/SearchBox";
-import Results from "@/components/Results";
-import { toast } from "sonner";
-import ResultsSkeleton from "@/components/ResultsSkeleton";
-import { useScan } from "@/lib/hooks/useScan";
-import ResultsEmpty from "@/components/ResultsEmpty";
+
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const { isPending, mutate, data, isIdle, isError, isSuccess } = useScan();
+  const router = useRouter();
 
   function handleScan(domain: string) {
-    mutate(domain, {
-      onError: (err: unknown) => {
-        toast.error(
-          (err as { message?: string })?.message ||
-            "An error occurred while scanning",
-        );
-      },
-    });
+    router.push(`/${domain}`);
   }
 
   return (
@@ -29,14 +19,6 @@ export default function Home() {
       </p>
 
       <SearchBox onScan={handleScan} />
-
-      {isIdle && null}
-
-      {isPending && <ResultsSkeleton />}
-
-      {isError && <ResultsEmpty onExample={handleScan} />}
-
-      {isSuccess && <Results data={data} />}
     </main>
   );
 }

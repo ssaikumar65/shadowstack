@@ -4,36 +4,17 @@ import { scanNetwork } from "@/lib/scrapers/network";
 import { redis } from "@/lib/redis";
 import { Signal } from "@/lib/types";
 import { scanHTML } from "@/lib/scrapers/html";
-
-function isValidDomain(domain: string) {
-  return /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(domain);
-}
-
-function normalizeDomain(input: string) {
-  return input
-    .toLowerCase()
-    .replace(/^https?:\/\//, "")
-    .replace(/^www\./, "")
-    .split("/")[0]
-    .trim();
-}
+import { parseDomain } from "@/lib/domain";
 
 export async function POST(req: Request) {
   try {
     const { domain: rawDomain } = await req.json();
 
-    const domain = normalizeDomain(rawDomain);
+    const domain = parseDomain(rawDomain);
 
     if (!domain) {
       return NextResponse.json(
         { error: "Please enter a company domain." },
-        { status: 400 },
-      );
-    }
-
-    if (!isValidDomain(domain)) {
-      return NextResponse.json(
-        { error: "That doesn’t look like a real domain." },
         { status: 400 },
       );
     }
@@ -57,7 +38,6 @@ export async function POST(req: Request) {
     const cached = await redis.get(cacheKey);
     if (cached) return NextResponse.json(cached);
 
-    // Verify site exists
     const head = await fetch(`https://${domain}`, { method: "HEAD" });
     if (!head.ok) {
       return NextResponse.json(
@@ -66,7 +46,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Run architecture detectors
     const [html, headers, network] = await Promise.all([
       scanHTML(domain),
       scanHeaders(domain),
@@ -82,7 +61,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Merge by key
     const grouped: Record<string, { value: string; confidence: number }[]> = {};
 
     for (const s of all) {

@@ -1,10 +1,11 @@
-import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { AxiosError } from "axios";
 
-export function useScan() {
-  return useMutation({
-    mutationFn: async (domain: string) => {
+export function useScan(domain: string) {
+  return useQuery({
+    queryKey: ["scan", domain],
+    queryFn: async () => {
       try {
         const { data } = await api.post("/scan", { domain });
         return data;
