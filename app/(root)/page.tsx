@@ -5,12 +5,11 @@ import { scan } from "@/lib/actions";
 export default function Home() {
   return (
     <main className="max-w-4xl mx-auto p-10">
-      <h1 className="text-4xl font-bold text-center">Shadow Stack</h1>
-      <p className="text-muted-foreground mt-2 mb-8 text-center">
+      <p className=" text-xl text-muted-foreground mt-2 mb-8 text-center">
         See what companies actually run.
       </p>
 
-      <form action={scan} className="flex gap-3">
+      <form action={scan} className="flex gap-3 flex-col">
         <Input
           name="domain"
           required

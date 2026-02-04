@@ -17,7 +17,7 @@ export function CardSkeleton() {
 
 export default function Loading() {
   return (
-    <div className="mt-10">
+    <div className="mt-10 w-full">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <CardSkeleton />
         <CardSkeleton />

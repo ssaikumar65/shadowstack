@@ -119,9 +119,23 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border m-0 box-border p-0 outline-ring/50;
+  }
+  html,
+  :root {
+    @apply h-full;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground h-full;
   }
+}
+
+::-webkit-scrollbar {
+  @apply h-3 w-2;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-foreground rounded-xl;
+}
+::-webkit-scrollbar-track {
+  @apply bg-background;
 }
