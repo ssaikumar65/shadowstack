@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex items-center justify-center px-4 py-20 sm:px-8 md:px-16 lg:px-32`}
+        className={`${geistSans.variable} ${geistMono.variable} overflow-y-scroll antialiased flex justify-center px-4 py-20 sm:px-8 md:px-16 lg:px-32`}
       >
         <Providers>
           <Header />

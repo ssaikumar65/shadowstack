@@ -8,7 +8,7 @@ const Header = () => {
   const { back } = useRouter();
   return (
     <header className=" fixed flex top-0 z-999 w-full bg-transparent px-4 py-4 sm:px-8 md:px-16 lg:px-32">
-      <div className="flex w-full items-center justify-between overflow-hidden h-16 rounded-xl border border-muted-foreground/50 bg-transparent px-8 py-3 ">
+      <div className="flex w-full items-center justify-between overflow-hidden h-16 rounded-xl border border-muted-foreground/50 bg-transparent px-8 py-3 shadow-lg shadow-black/50 saturate-200 backdrop-blur">
         <span className="font-bold text-xl">Shadow Stack</span>
         {pathname !== "/" ? (
           <Button

@@ -4,7 +4,7 @@ import { scan } from "@/lib/actions";
 
 export default function Home() {
   return (
-    <main className="max-w-4xl mx-auto p-10">
+    <main className="max-w-4xl mx-auto p-10 py-48">
       <p className=" text-xl text-muted-foreground mt-2 mb-8 text-center">
         See what companies actually run.
       </p>
