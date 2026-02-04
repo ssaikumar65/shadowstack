@@ -54,7 +54,6 @@ export async function scan(rawInput: string): Promise<ScanResult> {
     ...platform,
     ...api,
   ];
-  console.log("Scanned signals:", all);
 
   const modernity = computeModernity(all);
 
