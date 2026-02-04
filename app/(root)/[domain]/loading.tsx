@@ -1,28 +1,25 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-
-export function CardSkeleton() {
-  return (
-    <Card>
-      <CardHeader className="space-y-2">
-        <Skeleton className="h-5 w-24" />
-        <Skeleton className="h-4 w-12" />
-      </CardHeader>
-      <CardContent>
-        <Skeleton className="h-2 w-full" />
-      </CardContent>
-    </Card>
-  );
-}
+const Row = () => (
+  <div className="flex justify-between items-center py-3 border-b">
+    <div className="h-4 w-16 bg-muted rounded animate-pulse" />
+    <div className="h-4 w-16 bg-muted rounded animate-pulse" />
+  </div>
+);
 
 export default function Loading() {
   return (
-    <div className="mt-10 w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
+    <div className="mt-10 border rounded-lg p-6">
+      <div className="space-y-4">
+        <Row />
+        <Row />
+        <Row />
+        <Row />
+        <Row />
+        <Row />
+      </div>
+
+      <div className="mt-8 p-6 bg-muted rounded-lg">
+        <div className="h-4 w-32 mb-4 bg-background rounded animate-pulse" />
+        <div className="h-10 w-48 bg-background rounded animate-pulse" />
       </div>
     </div>
   );
