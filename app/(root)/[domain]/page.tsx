@@ -1,5 +1,5 @@
 import { scan } from "@/lib/scan";
-import Results from "@/components/Results";
+import StackGrid from "@/components/StackGrid";
 
 export default async function Page({
   params,
@@ -10,5 +10,5 @@ export default async function Page({
 
   const data = await scan(domain);
 
-  return <Results data={data} />;
+  return <StackGrid data={data} />;
 }

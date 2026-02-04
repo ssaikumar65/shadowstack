@@ -3,8 +3,14 @@ import { parseDomain } from "@/lib/domain";
 import { scanHTML } from "@/lib/scrapers/html";
 import { scanHeaders } from "@/lib/scrapers/headers";
 import { scanNetwork } from "@/lib/scrapers/network";
+import { scanSecurity } from "./scrapers/security";
+import { scanPerf } from "./scrapers/perf";
+import { scanPlatform } from "./scrapers/platform";
+import { scanAPI } from "./scrapers/api";
+import { computeModernity } from "./score";
+import { ScanResult } from "./types";
 
-export async function scan(rawInput: string) {
+export async function scan(rawInput: string): Promise<ScanResult> {
   const parsed = parseDomain(rawInput);
 
   if (!parsed) {
@@ -14,7 +20,7 @@ export async function scan(rawInput: string) {
   const domain = parsed;
 
   const cacheKey = `scan:${domain}`;
-  const cached = await redis.get(cacheKey);
+  const cached: ScanResult | null = await redis.get(cacheKey);
   if (cached) return cached;
 
   let head;
@@ -28,13 +34,29 @@ export async function scan(rawInput: string) {
     throw new Error("Website not reachable");
   }
 
-  const [html, headers, network] = await Promise.all([
-    scanHTML(domain),
-    scanHeaders(domain),
-    scanNetwork(domain),
-  ]);
+  const [html, headers, network, perf, security, platform, api] =
+    await Promise.all([
+      scanHTML(domain),
+      scanHeaders(domain),
+      scanNetwork(domain),
+      scanPerf(domain),
+      scanSecurity(domain),
+      scanPlatform(domain),
+      scanAPI(domain),
+    ]);
 
-  const all = [...html, ...headers, ...network];
+  const all = [
+    ...html,
+    ...headers,
+    ...network,
+    ...perf,
+    ...security,
+    ...platform,
+    ...api,
+  ];
+  console.log("Scanned signals:", all);
+
+  const modernity = computeModernity(all);
 
   if (all.length === 0) {
     throw new Error("No architecture signals found");
@@ -54,10 +76,11 @@ export async function scan(rawInput: string) {
       confidence: best.confidence,
     };
   });
-  const result = {
+  const result: ScanResult = {
     domain,
     scannedAt: new Date().toISOString(),
     architecture,
+    modernity,
   };
 
   await redis.set(cacheKey, result, { ex: 60 * 60 * 24 });
