@@ -4,7 +4,7 @@ import { AlertTriangle } from "lucide-react";
 
 export default function Error() {
   return (
-    <Card className="mt-10">
+    <Card className="mt-10 h-fit">
       <CardContent className="flex flex-col items-center text-center gap-4 py-12">
         <AlertTriangle className="h-10 w-10 text-muted-foreground" />
         <h3 className="text-xl font-semibold">No data available</h3>
